@@ -76,7 +76,7 @@ function Events() {
     ];
 
     return (
-        <div style={{ height: 600, width: '100%', padding: '2rem' }}>
+        <div style={{ height: 600, width: '100%', padding: '1rem' }}>
             <h1>Events</h1>
             <Button variant="contained" onClick={handleAddClick} style={{ marginBottom: '1rem' }}>
                 Add Event
