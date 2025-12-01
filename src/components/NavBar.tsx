@@ -8,6 +8,9 @@ function Navbar() {
                 <Button color="inherit" component={Link} to="/">
                     Events
                 </Button>
+                <Button color="inherit" component={Link} to="/tickettype">
+                    TicketType
+                </Button>
 
             </Toolbar>
         </AppBar>
