@@ -4,7 +4,7 @@ export interface Events {
     name: string,
     dateTime: string,
     location: string,
-    capacity: number,
+    capacity: string,
 }
 
 export interface Sales {
