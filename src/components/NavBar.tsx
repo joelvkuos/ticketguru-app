@@ -35,9 +35,23 @@ function Navbar() {
                 </Button>
 
                 <Button
-                    color="inherit"
+                    color="success"
+                    variant="outlined"
                     component={NavLink}
                     to="/sales"
+                    sx={{
+                        "&.active": {
+                            fontWeight: "bold",
+                            color: 'success'
+                        }
+                    }}
+                >
+                    Sell Tickets
+                </Button>
+                <Button
+                    color="inherit"
+                    component={NavLink}
+                    to="/tickets"
                     sx={{
                         "&.active": {
                             fontWeight: "bold",
@@ -45,7 +59,7 @@ function Navbar() {
                         }
                     }}
                 >
-                    Sell Tickets
+                    Tickets
                 </Button>
             </Toolbar>
         </AppBar>

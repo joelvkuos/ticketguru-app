@@ -77,10 +77,10 @@ function Events() {
 
     return (
         <>
-            <div style={{ height: '5vh', width: '100%', padding: '2rem' }}>
-                <div>
-                    <p style={{ fontFamily: "Arial" }}>In this page you can create, edit or delete events</p>
-                </div>
+            <div style={{ padding: '1rem', height: '5vh' }}>
+                <p style={{ fontFamily: "Arial" }}>In this page you can create, edit or delete events</p>
+            </div>
+            <div>
                 <Button variant="contained" onClick={handleAddClick} style={{ marginBottom: '1rem' }}>
                     Add Event
                 </Button>
