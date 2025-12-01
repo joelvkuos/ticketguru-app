@@ -1,77 +1,56 @@
-import { useEffect, useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import type { Events as EventType, Types as TicketTypeData } from '../types';
-import { fetchEvents, createType, updateType } from '../services/api';
-import { Button } from '@mui/material';
-import TicketTypeDialog from '../components/TicketTypeDialog';
+import { Button } from "@mui/material";
+import type { Types, Events } from "../types";
+import { useState, useEffect } from "react";
+import { fetchEvents, createType } from '../services/api';
+import TicketTypeDialog from "../components/TicketTypeDialog";
 
 
 function TicketType() {
-    const [events, setEvents] = useState<EventType[]>([]);
+    const [events, setEvents] = useState<Events[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [editingTicket, setEditingTicket] = useState<TicketTypeData | null>(null);
-    const [selectedEventId, setSelectedEventId] = useState<number>(0);
-
 
     useEffect(() => {
-        fetchEvents()
-            .then(data => {
-                console.log('Events fetched:', data);
-                setEvents(data);
-            })
-            .catch(error => {
-                console.error('Error fetching events:', error);
-            });
+        loadData();
     }, []);
 
-    const handleCreateTickets = (eventId: number) => {
-        setEditingTicket(null);
-        setDialogOpen(true);
-        setSelectedEventId(eventId);
-    }
-
-    const handleSave = async (ticketTypeData: Partial<TicketTypeData>) => {
+    const loadData = async () => {
         try {
-            if (editingTicket) {
-                await updateType(editingTicket.id, ticketTypeData);
-            } else {
-                await createType(ticketTypeData as Omit<TicketTypeData, 'id'>);
-            }
-            setDialogOpen(false);
-            console.log('Ticket type saved successfully');
+            const eventsData = await fetchEvents();
+            setEvents(eventsData);
         } catch (error) {
-            console.error('Error saving ticket type:', error);
+            console.error('Error loading data:', error);
         }
     };
 
-    const columns = [
-        { field: 'name', headerName: 'Event Name', width: 600 },
-        {
-            field: 'actions', headerName: 'Actions', width: 600, sortable: false, filterable: false, renderCell: (params: any) => (
-                <>
-                <Button size='small' onClick={() => handleCreateTickets(parseInt(params.row.id))}>Create ticket types</Button>
-                </>
-            )
-        },
-    ];
+    const handleCreateClick = () => {
+        setDialogOpen(true);
+    };
+
+    const handleSave = async (ticketTypeData: Partial<Types>) => {
+        try {
+            await createType(ticketTypeData as Omit<Types, 'id'>);
+            setDialogOpen(false);
+            alert('Ticket type created successfully!');
+        } catch (error) {
+            console.error('Error saving ticket type:', error);
+            alert('Error creating ticket type');
+        }
+    };
 
     return (
-        <div style={{ height: 600, width: '100%', padding: '2rem' }}>
-            <h1>Ticket Types</h1>
-            <DataGrid
-                rows={events}
-                columns={columns}
-                getRowId={(row) => row.id}
-            />
+        <div style={{ padding: '2rem' }}>
+            <Button variant="contained" onClick={handleCreateClick}>
+                Create a new Ticket Type
+            </Button>
             <TicketTypeDialog
                 open={dialogOpen}
-                ticketType={editingTicket}
-                eventId={selectedEventId}
+                events={events}
                 onClose={() => setDialogOpen(false)}
                 onSave={handleSave}
             />
         </div>
     )
+
 }
 
 export default TicketType;
