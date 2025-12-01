@@ -76,23 +76,30 @@ function Events() {
     ];
 
     return (
-        <div style={{ height: 600, width: '100%', padding: '1rem' }}>
-            <h1>Events</h1>
-            <Button variant="contained" onClick={handleAddClick} style={{ marginBottom: '1rem' }}>
-                Add Event
-            </Button>
-            <DataGrid
-                rows={events}
-                columns={columns}
-                getRowId={(row) => row.name}
-            />
-            <EventDialog
-                open={dialogOpen}
-                event={editingEvent}
-                onClose={() => setDialogOpen(false)}
-                onSave={handleSave}
-            />
-        </div>
+        <>
+            <div style={{ height: '5vh', width: '100%', padding: '2rem' }}>
+                <div>
+                    <p style={{ fontFamily: "Arial" }}>In this page you can create, edit or delete events</p>
+                </div>
+                <Button variant="contained" onClick={handleAddClick} style={{ marginBottom: '1rem' }}>
+                    Add Event
+                </Button>
+
+                <div style={{ display: 'flex', justifyContent: "center" }}>
+                    <DataGrid
+                        rows={events}
+                        columns={columns}
+                        getRowId={(row) => row.name}
+                    />
+                </div>
+                <EventDialog
+                    open={dialogOpen}
+                    event={editingEvent}
+                    onClose={() => setDialogOpen(false)}
+                    onSave={handleSave}
+                />
+            </div>
+        </>
     )
 }
 

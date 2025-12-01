@@ -38,17 +38,22 @@ function TicketType() {
     };
 
     return (
-        <div style={{ padding: '2rem' }}>
-            <Button variant="contained" onClick={handleCreateClick}>
-                Create a new Ticket Type
-            </Button>
-            <TicketTypeDialog
-                open={dialogOpen}
-                events={events}
-                onClose={() => setDialogOpen(false)}
-                onSave={handleSave}
-            />
-        </div>
+        <>
+            <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '5vh' }}>
+                <p style={{ fontFamily: "Arial" }}>Click the button below to create a new ticket type</p>
+            </div>
+            <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '1vh' }}>
+                <Button variant="contained" onClick={handleCreateClick} style={{ height: '10vh' }}>
+                    Create a new Ticket Type
+                </Button>
+                <TicketTypeDialog
+                    open={dialogOpen}
+                    events={events}
+                    onClose={() => setDialogOpen(false)}
+                    onSave={handleSave}
+                />
+            </div>
+        </>
     )
 
 }

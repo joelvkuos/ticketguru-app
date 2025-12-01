@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 import type { Events as EventType } from '../types';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 interface EventDialogProps {
     open: boolean;
@@ -41,7 +45,7 @@ function EventDialog({ open, event, onClose, onSave }: EventDialogProps) {
     };
 
     return (
-        <Dialog open={open} onClose={onClose}>
+        <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
             <DialogTitle>{event ? 'Edit Event' : 'Add Event'}</DialogTitle>
             <DialogContent>
                 <TextField
@@ -51,15 +55,17 @@ function EventDialog({ open, event, onClose, onSave }: EventDialogProps) {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 />
-                <TextField
-                    margin="dense"
-                    label="Date and Time"
-                    type="datetime-local"
-                    fullWidth
-                    InputLabelProps={{ shrink: true }}
-                    value={formData.dateTime}
-                    onChange={(e) => setFormData({ ...formData, dateTime: e.target.value })}
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker
+                        label="Date and Time"
+                        value={formData.dateTime ? dayjs(formData.dateTime) : null}
+                        onChange={(newValue) => setFormData({
+                            ...formData,
+                            dateTime: newValue ? newValue.toISOString() : ''
+                        })}
+                        slotProps={{ textField: { fullWidth: true, margin: 'dense' } }}
+                    />
+                </LocalizationProvider>
                 <TextField
                     margin="dense"
                     label="Location"

@@ -1,17 +1,52 @@
-import { AppBar, Toolbar, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
+import { AppBar, Toolbar, Button } from "@mui/material";
 
 function Navbar() {
     return (
-        <AppBar position="static">
+        <AppBar position="static" color="inherit">
             <Toolbar>
-                <Button color="inherit" component={Link} to="/">
+                <Button
+                    color="inherit"
+                    component={NavLink}
+                    to="/"
+                    sx={{
+                        "&.active": {
+                            fontWeight: "bold",
+                            color: 'black'
+                        }
+                    }}
+                    end
+                >
                     Events
                 </Button>
-                <Button color="inherit" component={Link} to="/tickettype">
-                    TicketType
+
+                <Button
+                    color="inherit"
+                    component={NavLink}
+                    to="/tickettype"
+                    sx={{
+                        "&.active": {
+                            fontWeight: "bold",
+                            color: 'black'
+                        }
+                    }}
+                >
+                    Types
                 </Button>
 
+                <Button
+                    color="inherit"
+                    component={NavLink}
+                    to="/sales"
+                    sx={{
+                        "&.active": {
+                            fontWeight: "bold",
+                            color: 'black'
+                        }
+                    }}
+                >
+                    Sell Tickets
+                </Button>
             </Toolbar>
         </AppBar>
     );
