@@ -152,7 +152,6 @@ function SaleDialog({ open, onClose, onSave }: SaleDialogProps) {
                     inputProps={{ min: 1 }}
                 />
 
-
                 {selectedTypeId && quantity > 0 && (
                     <div style={{ marginTop: '1rem', fontSize: '1.2rem', fontWeight: 'bold' }}>
                         Total: €{(ticketTypes.find(t => t.id === selectedTypeId)?.price || 0) * quantity}
@@ -161,7 +160,7 @@ function SaleDialog({ open, onClose, onSave }: SaleDialogProps) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} disabled={loading}>Cancel</Button>
-                <Button onClick={handleSubmit} variant="contained" disabled={loading}>
+                <Button onClick={handleSubmit} variant="outlined" color='success' disabled={loading}>
                     {loading ? 'Processing...' : 'Complete Sale'}
                 </Button>
             </DialogActions>

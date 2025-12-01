@@ -3,6 +3,7 @@ import './App.css'
 import Events from './pages/Events'
 import TicketType from './pages/TicketType'
 import Sales from './pages/Sales'
+import Tickets from './pages/Tickets'
 import Navbar from './components/NavBar'
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Events />} />
         <Route path="/tickettype" element={<TicketType />} />
         <Route path="/sales" element={<Sales />} />
+        <Route path="/tickets" element={<Tickets />} />
       </Routes>
     </>
   )
