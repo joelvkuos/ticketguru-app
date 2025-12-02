@@ -4,6 +4,7 @@ import Events from './pages/Events'
 import TicketType from './pages/TicketType'
 import Sales from './pages/Sales'
 import Tickets from './pages/Tickets'
+import Info from './pages/Info'
 import Navbar from './components/NavBar'
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Events />} />
+        <Route path="/" element={<Info />} />
+        <Route path="/events" element={<Events />} />
         <Route path="/tickettype" element={<TicketType />} />
         <Route path="/sales" element={<Sales />} />
         <Route path="/tickets" element={<Tickets />} />

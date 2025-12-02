@@ -101,11 +101,10 @@ function Tickets() {
         },
     ];
 
+
+
     return (
         <>
-            <div style={{ padding: '2rem', height: '5vh' }}>
-                <p style={{ fontFamily: "Arial" }}>View all sold tickets and mark them as used</p>
-            </div>
             <div style={{ height: 600, width: '100%', padding: '1rem' }}>
                 <div style={{ height: 600, width: '100%' }}>
                     <DataGrid

@@ -35,13 +35,14 @@ function Sales() {
 
     return (
         <>
-            <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '5vh' }}>
-                <p style={{ fontFamily: "Arial" }}>Click the button below to sell tickets.</p>
-            </div>
-            <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '1vh' }}>
-                <Button variant='contained' onClick={handleAddClick} style={{ height: '10vh' }}>
-                    Sell Tickets
-                </Button>
+            <div style={{ padding: '2rem', maxWidth: '900px', margin: '0 auto', marginTop: '1rem', borderRadius: '8px', fontFamily: 'System-UI', backgroundColor: '#1976d2' }}>
+                <h4 style={{ textAlign: 'center', marginBottom: '2rem', color: 'white' }}>Click the button below to sell tickets</h4>
+
+                <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '1vh', backgroundColor: '#1976d2' }}>
+                    <Button variant='contained' color='warning' onClick={handleAddClick} style={{ height: '10vh' }}>
+                        Sell Tickets
+                    </Button>
+                </div>
                 <SaleDialog
                     open={dialogOpen}
                     onClose={() => setDialogOpen(false)}
