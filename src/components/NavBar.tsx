@@ -5,7 +5,7 @@ function Navbar() {
     return (
         <AppBar position="static" color="primary">
             <div style={{ fontFamily: 'system-ui' }}>
-                <h1 style={{ paddingTop: '1rem', textAlign: 'center', color: 'inherit', textShadow: '3px 3px 3px black', textDecoration: 'underline' }}>T I C K E T G U R U</h1>
+                <h1 style={{ paddingTop: '1rem', textAlign: 'center', color: 'inherit', textShadow: '3px 3px 3px black' }}>T I C K E T G U R U</h1>
             </div>
             <Toolbar style={{ marginBottom: '1rem', justifyContent: 'center' }}>
                 <Button
@@ -87,7 +87,7 @@ function Navbar() {
                         "&.active": {
                             margin: '2px',
                             fontWeight: "normal",
-                            color: 'inherit'
+                            color: 'blue'
                         }
                     }}
                 >
