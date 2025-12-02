@@ -82,7 +82,7 @@ function SaleDialog({ open, onClose, onSave }: SaleDialogProps) {
                     ticketId: ticket.id,
                     eventId: selectedEventId as number,
                     customerId: customerIdNumber,
-                    sellerId: 1, // TODO: Get from logged in user
+                    sellerId: 1,
                     saleDate: new Date().toISOString(),
                     price: selectedType.price
                 });

@@ -39,13 +39,14 @@ function TicketType() {
 
     return (
         <>
-            <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '5vh' }}>
-                <p style={{ fontFamily: "Arial" }}>Click the button below to create a new ticket type</p>
-            </div>
-            <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '1vh' }}>
-                <Button variant="contained" onClick={handleCreateClick} style={{ height: '10vh' }}>
-                    Create a new Ticket Type
-                </Button>
+            <div style={{ padding: '2rem', maxWidth: '900px', margin: '0 auto', marginTop: '1rem', borderRadius: '8px', fontFamily: 'System-UI', backgroundColor: '#1976d2' }}>
+                <h4 style={{ textAlign: 'center', marginBottom: '2rem', color: 'white' }}>Click the button below to create a new ticket type</h4>
+
+                <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '1vh', backgroundColor: '#1976d2' }}>
+                    <Button variant="contained" color="warning" onClick={handleCreateClick} style={{ height: '10vh' }}>
+                        New Ticket Type
+                    </Button>
+                </div>
                 <TicketTypeDialog
                     open={dialogOpen}
                     events={events}
