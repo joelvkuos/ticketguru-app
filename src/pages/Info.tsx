@@ -9,7 +9,7 @@ function Info() {
                     <p><strong>1:</strong> Create an Event (Events page)</p>
                     <p><strong>2:</strong> Create Ticket Types for that event (Types page)</p>
                     <p><strong>3:</strong> Sell tickets to customers (Sell Tickets page)</p>
-                    <p><strong>4:</strong> Validate tickets (Tickets page)</p>
+                    <p><strong>4:</strong> Redeem tickets (Tickets page)</p>
                 </div>
             </section>
         </div>
