@@ -35,10 +35,10 @@ function Sales() {
 
     return (
         <>
-            <div style={{ padding: '2rem', maxWidth: '900px', margin: '0 auto', marginTop: '1rem', borderRadius: '8px', fontFamily: 'System-UI', backgroundColor: '#1976d2' }}>
-                <h4 style={{ textAlign: 'center', marginBottom: '2rem', color: 'white' }}>Click the button below to sell tickets</h4>
+            <div style={{ padding: '2rem', maxWidth: '900px', margin: '0 auto', marginTop: '1rem', borderRadius: '8px', fontFamily: 'System-UI', outlineStyle: 'outset', outlineColor: 'white' }}>
+                <h3 style={{ textAlign: 'center', marginBottom: '2rem', color: 'black' }}>Click the button below to sell tickets</h3>
 
-                <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '1vh', backgroundColor: '#1976d2' }}>
+                <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '1vh' }}>
                     <Button variant='contained' color='warning' onClick={handleAddClick} style={{ height: '10vh' }}>
                         Sell Tickets
                     </Button>

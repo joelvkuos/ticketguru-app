@@ -83,8 +83,8 @@ function EventDialog({ open, event, onClose, onSave }: EventDialogProps) {
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={handleSubmit} variant="contained">Save</Button>
+                <Button onClick={onClose} color='error'>Cancel</Button>
+                <Button onClick={handleSubmit} variant="contained" color='success'>Save</Button>
             </DialogActions>
         </Dialog>
     );
