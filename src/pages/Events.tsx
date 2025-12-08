@@ -4,12 +4,14 @@ import type { Events as EventType } from '../types';
 import { fetchEvents, createEvent, updateEvent, deleteEvent } from '../services/api';
 import { Button } from '@mui/material';
 import EventDialog from '../components/EventDialog';
+import { isAdmin } from '../services/authService';
 
 
 function Events() {
     const [events, setEvents] = useState<EventType[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [editingEvent, setEditingEvent] = useState<EventType | null>(null);
+    const userIsAdmin = isAdmin();
 
 
     useEffect(() => {
@@ -65,23 +67,25 @@ function Events() {
         { field: 'dateTime', headerName: 'Date and Time', width: 200 },
         { field: 'location', headerName: 'Location', width: 200 },
         { field: 'capacity', headerName: 'Capacity', width: 150 },
-        {
+        ...(userIsAdmin ? [{
             field: 'actions', headerName: 'Actions', width: 200, sortable: false, filterable: false, renderCell: (params: any) => (
                 <>
                     <Button size="small" onClick={() => handleEditClick(params.row)}>Edit</Button>
                     <Button size="small" color="error" onClick={() => handleDelete(params.row.id)}>Delete</Button>
                 </>
             )
-        },
+        }] : []),
     ];
 
     return (
         <>
 
             <div>
-                <Button variant="contained" color='success' onClick={handleAddClick} style={{ marginTop: '1rem', marginBottom: '1rem', marginLeft: '1rem' }}>
-                    Add Event
-                </Button>
+                {userIsAdmin && (
+                    <Button variant="contained" color='success' onClick={handleAddClick} style={{ marginTop: '1rem', marginBottom: '1rem', marginLeft: '1rem' }}>
+                        Add Event
+                    </Button>
+                )}
 
                 <div style={{ marginLeft: '1rem', marginRight: '1rem' }}>
                     <DataGrid
@@ -90,12 +94,14 @@ function Events() {
                         getRowId={(row) => row.name}
                     />
                 </div>
-                <EventDialog
-                    open={dialogOpen}
-                    event={editingEvent}
-                    onClose={() => setDialogOpen(false)}
-                    onSave={handleSave}
-                />
+                {userIsAdmin && (
+                    <EventDialog
+                        open={dialogOpen}
+                        event={editingEvent}
+                        onClose={() => setDialogOpen(false)}
+                        onSave={handleSave}
+                    />
+                )}
             </div>
         </>
     )

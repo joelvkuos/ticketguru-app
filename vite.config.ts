@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://ticket-guru-bitti-possut-ticketguru-bittipossut.2.rahtiapp.fi',
+        target: 'http://localhost:8081',
         changeOrigin: true,
         secure: false,
       }
