@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { fetchTickets, updateTicket } from '../services/api';
 import type { Tickets } from '../types';
-import { Button, colors, TextField } from '@mui/material';
+import { Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 
 function Tickets() {
 
     const [ticket, setTickets] = useState<Tickets[]>([]);
     const [searchCode, setSearchCode] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
 
 
 
@@ -27,9 +29,12 @@ function Tickets() {
                 ...ticketToUpdate,
                 used: new Date().toISOString()
             });
-            // Refresh tickets
             const updatedTickets = await fetchTickets();
             setTickets(updatedTickets);
+
+            setModalMessage('Ticket marked as used successfully!');
+            setShowModal(true);
+            setSearchCode('');
         }
     };
 
@@ -42,8 +47,8 @@ function Tickets() {
     return (
 
         <>
-            <div style={{ padding: '2rem', maxWidth: '900px', margin: '0 auto', marginTop: '1rem', borderRadius: '8px', fontFamily: 'System-UI', backgroundColor: '#1976d2' }}>
-                <h3 style={{ textAlign: 'center', color: 'white', textShadow: '2px 2px 2px black' }}>Search ticket(s) by TicketCode</h3>
+            <div style={{ padding: '2rem', maxWidth: '900px', margin: '0 auto', marginTop: '1rem', borderRadius: '8px', fontFamily: 'System-UI', outlineStyle: 'outset', outlineColor: 'white' }}>
+                <h3 style={{ textAlign: 'center', color: 'black' }}>Search ticket(s) by TicketCode</h3>
 
                 <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <TextField
@@ -55,7 +60,7 @@ function Tickets() {
                         color='warning'
                         sx={{
                             width: '250px',
-                            input: { color: 'white' },
+                            input: { color: 'black' },
                         }}
                     />
                 </div>
@@ -63,7 +68,7 @@ function Tickets() {
                 <div style={{ justifyItems: 'center' }}>
                     {filteredTickets.map(t => (
                         <div key={t.id} style={{ color: 'white' }}>
-                            <p>Status: {t.used ? 'Used' : 'Not used!'}</p>
+                            <p style={{ color: 'black' }}>Status: {t.used ? 'Used' : 'Not used!'}</p>
                             {!t.used && (
                                 <Button
                                     onClick={() => handleMarkAsUsed(t.id)}
@@ -76,6 +81,18 @@ function Tickets() {
                     ))}
                 </div>
             </div>
+
+            <Dialog open={showModal} onClose={() => setShowModal(false)}>
+                <DialogTitle>Success</DialogTitle>
+                <DialogContent>
+                    <p>{modalMessage}</p>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setShowModal(false)} variant="contained" color="primary">
+                        OK
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
 
     );

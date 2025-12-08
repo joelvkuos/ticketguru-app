@@ -3,11 +3,11 @@ import { AppBar, Toolbar, Button } from "@mui/material";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 function Navbar() {
     return (
-        <AppBar position="static" color="primary">
+        <AppBar position="relative" color="transparent">
             <div style={{ fontFamily: 'system-ui' }}>
-                <h1 style={{ paddingTop: '1rem', textAlign: 'center', color: 'inherit', textShadow: '3px 3px 3px black' }}>T I C K E T G U R U</h1>
+                <h1 style={{ paddingTop: '1rem', textAlign: 'center', color: 'black' }}>T I C K E T G U R U</h1>
             </div>
-            <Toolbar style={{ marginBottom: '1rem', justifyContent: 'center' }}>
+            <Toolbar style={{ marginBottom: '1rem' }}>
                 <Button
                     variant="outlined"
                     color="inherit"
@@ -22,7 +22,7 @@ function Navbar() {
                         "&.active": {
                             margin: '2px',
                             fontWeight: "normal",
-                            color: 'blue'
+                            color: 'black'
                         }
                     }}
                     end
@@ -45,7 +45,7 @@ function Navbar() {
                         "&.active": {
                             margin: '2px',
                             fontWeight: "normal",
-                            color: 'blue'
+                            color: 'black'
                         }
                     }}
                 >
@@ -67,7 +67,7 @@ function Navbar() {
                         "&.active": {
                             margin: '2px',
                             fontWeight: "normal",
-                            color: 'blue'
+                            color: 'black'
                         }
                     }}
                 >
@@ -87,31 +87,30 @@ function Navbar() {
                         "&.active": {
                             margin: '2px',
                             fontWeight: "normal",
-                            color: 'blue'
+                            color: 'black'
                         }
                     }}
                 >
                     Sell Tickets
                 </Button>
                 <Button
-                    variant="outlined"
-                    color="inherit"
+                    variant="contained"
+                    color="warning"
                     component={NavLink}
                     to="/tickets"
                     sx={{
                         "&:not(.active)": {
                             margin: '2px',
                             fontWeight: "bold",
-                            color: 'inherit'
                         },
                         "&.active": {
                             margin: '2px',
                             fontWeight: "normal",
-                            color: 'blue'
+                            color: 'black'
                         }
                     }}
                 >
-                    Tickets
+                    Check tickets
                 </Button>
             </Toolbar>
 

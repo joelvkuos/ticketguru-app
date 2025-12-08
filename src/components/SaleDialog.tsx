@@ -17,6 +17,8 @@ function SaleDialog({ open, onClose, onSave }: SaleDialogProps) {
     const [quantity, setQuantity] = useState<number>(1);
     const [customerId, setCustomerId] = useState<string>('');
     const [loading, setLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
 
     useEffect(() => {
         if (open) {
@@ -54,7 +56,8 @@ function SaleDialog({ open, onClose, onSave }: SaleDialogProps) {
 
     const handleSubmit = async () => {
         if (!selectedEventId || !selectedTypeId || quantity < 1) {
-            alert('Please fill in all required fields');
+            setModalMessage('Please fill in all required fields');
+            setShowModal(true);
             return;
         }
 
@@ -62,7 +65,8 @@ function SaleDialog({ open, onClose, onSave }: SaleDialogProps) {
         try {
             const selectedType = ticketTypes.find(t => t.id === selectedTypeId);
             if (!selectedType) {
-                alert('Selected ticket type not found');
+                setModalMessage('Selected ticket type not found');
+                setShowModal(true);
                 return;
             }
 
@@ -88,12 +92,14 @@ function SaleDialog({ open, onClose, onSave }: SaleDialogProps) {
                 });
             }
 
-            alert(`Successfully sold ${quantity} ticket(s) for €${totalPrice.toFixed(2)}`);
+            setModalMessage(`Successfully sold ${quantity} ticket(s) for €${totalPrice.toFixed(2)}`);
+            setShowModal(true);
             handleClose();
             onSave();
         } catch (error) {
             console.error('Error creating sale:', error);
-            alert('Error creating sale');
+            setModalMessage('Error creating sale');
+            setShowModal(true);
         } finally {
             setLoading(false);
         }
@@ -109,62 +115,76 @@ function SaleDialog({ open, onClose, onSave }: SaleDialogProps) {
     };
 
     return (
-        <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-            <DialogTitle>New Sale</DialogTitle>
-            <DialogContent>
-                <FormControl fullWidth margin="normal">
-                    <InputLabel>Event</InputLabel>
-                    <Select
-                        value={selectedEventId}
-                        onChange={(e) => setSelectedEventId(e.target.value as number)}
-                        label="Event"
-                    >
-                        {events.map((event) => (
-                            <MenuItem key={event.id} value={event.id}>
-                                {event.name} - {new Date(event.dateTime).toLocaleDateString()}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+        <>
+            <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+                <DialogTitle>New Sale</DialogTitle>
+                <DialogContent>
+                    <FormControl fullWidth margin="normal">
+                        <InputLabel>Event</InputLabel>
+                        <Select
+                            value={selectedEventId}
+                            onChange={(e) => setSelectedEventId(e.target.value as number)}
+                            label="Event"
+                        >
+                            {events.map((event) => (
+                                <MenuItem key={event.id} value={event.id}>
+                                    {event.name} - {new Date(event.dateTime).toLocaleDateString()}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
-                <FormControl fullWidth margin="normal" disabled={!selectedEventId}>
-                    <InputLabel>Ticket Type</InputLabel>
-                    <Select
-                        value={selectedTypeId}
-                        onChange={(e) => setSelectedTypeId(e.target.value as number)}
-                        label="Ticket Type"
-                    >
-                        {ticketTypes.map((type) => (
-                            <MenuItem key={type.id} value={type.id}>
-                                {type.name} - €{type.price}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                    <FormControl fullWidth margin="normal" disabled={!selectedEventId}>
+                        <InputLabel>Ticket Type</InputLabel>
+                        <Select
+                            value={selectedTypeId}
+                            onChange={(e) => setSelectedTypeId(e.target.value as number)}
+                            label="Ticket Type"
+                        >
+                            {ticketTypes.map((type) => (
+                                <MenuItem key={type.id} value={type.id}>
+                                    {type.name} - €{type.price}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
-                <TextField
-                    fullWidth
-                    margin="normal"
-                    label="Quantity"
-                    type="number"
-                    value={quantity}
-                    onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                    inputProps={{ min: 1 }}
-                />
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        label="Quantity"
+                        type="number"
+                        value={quantity}
+                        onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
+                        inputProps={{ min: 1 }}
+                    />
 
-                {selectedTypeId && quantity > 0 && (
-                    <div style={{ marginTop: '1rem', fontSize: '1.2rem', fontWeight: 'bold' }}>
-                        Total: €{(ticketTypes.find(t => t.id === selectedTypeId)?.price || 0) * quantity}
-                    </div>
-                )}
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose} disabled={loading}>Cancel</Button>
-                <Button onClick={handleSubmit} variant="outlined" color='success' disabled={loading}>
-                    {loading ? 'Processing...' : 'Complete Sale'}
-                </Button>
-            </DialogActions>
-        </Dialog>
+                    {selectedTypeId && quantity > 0 && (
+                        <div style={{ marginTop: '1rem', fontSize: '1.2rem', fontWeight: 'bold' }}>
+                            Total: €{(ticketTypes.find(t => t.id === selectedTypeId)?.price || 0) * quantity}
+                        </div>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} disabled={loading} color='error'>Cancel</Button>
+                    <Button onClick={handleSubmit} variant="contained" color='success' disabled={loading}>
+                        {loading ? 'Processing...' : 'Complete Sale'}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={showModal} onClose={() => setShowModal(false)}>
+                <DialogTitle>Notification</DialogTitle>
+                <DialogContent>
+                    <p>{modalMessage}</p>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setShowModal(false)} variant="contained" color="primary">
+                        OK
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 }
 

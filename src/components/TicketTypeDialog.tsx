@@ -95,8 +95,8 @@ function TicketTypeDialog({ open, events, onClose, onSave }: TicketTypeDialogPro
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={handleSubmit} variant="contained" color="primary">
+                <Button onClick={onClose} color='error'>Cancel</Button>
+                <Button onClick={handleSubmit} variant="contained" color="success">
                     Create
                 </Button>
             </DialogActions>
