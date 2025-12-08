@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import type { Events as EventType } from '../types';
-import { fetchEvents, createEvent, updateEvent, deleteEvent } from '../services/api';
+import type { Events as EventType, Tickets, Types } from '../types';
+import { fetchEvents, createEvent, updateEvent, deleteEvent, fetchTickets, fetchTypes } from '../services/api';
 import { Button } from '@mui/material';
+import dayjs from "dayjs";
 import EventDialog from '../components/EventDialog';
 
 
@@ -10,6 +11,8 @@ function Events() {
     const [events, setEvents] = useState<EventType[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [editingEvent, setEditingEvent] = useState<EventType | null>(null);
+    const [tickets, setTickets] = useState<Tickets[]>([]);
+    const [ticketTypes, setTicketTypes] = useState<Types[]>([]);
 
 
     useEffect(() => {
@@ -20,6 +23,22 @@ function Events() {
             })
             .catch(error => {
                 console.error('Error fetching events:', error);
+            });
+        
+        fetchTickets()
+            .then(data => {
+                setTickets(data);
+            })
+            .catch(error => {
+                console.error('Error fetching tickets:', error);
+            });
+        
+        fetchTypes()
+            .then(data => {
+                setTicketTypes(data);
+            })
+            .catch(error => {
+                console.error('Error fetching ticket types:', error);
             });
     }, []);
 
@@ -60,11 +79,35 @@ function Events() {
         }
     };
 
+    const getSoldTicketsForEvent = (eventId: string) => {
+        const eventTicketTypeIds = ticketTypes
+            .filter(type => type.eventId === parseInt(eventId))
+            .map(type => type.id);
+        
+        return tickets.filter(ticket => 
+            eventTicketTypeIds.includes(ticket.ticketTypeId) && ticket.sold
+        ).length;
+    };
+
     const columns = [
         { field: 'name', headerName: 'Event Name', width: 200 },
-        { field: 'dateTime', headerName: 'Date and Time', width: 200 },
+        { 
+            field: 'dateTime', 
+            headerName: 'Date and Time', 
+            width: 200, 
+            renderCell: (params: any) => dayjs(params.row.dateTime).format('DD/MM/YYYY HH:mm')
+        },
         { field: 'location', headerName: 'Location', width: 200 },
-        { field: 'capacity', headerName: 'Capacity', width: 150 },
+        { 
+            field: 'capacity', 
+            headerName: 'Capacity', 
+            width: 150,
+            renderCell: (params: any) => {
+                const soldCount = getSoldTicketsForEvent(params.row.id);
+                const totalCapacity = params.row.capacity;
+                return `${totalCapacity-soldCount}/${totalCapacity}`;
+            }
+        },
         {
             field: 'actions', headerName: 'Actions', width: 200, sortable: false, filterable: false, renderCell: (params: any) => (
                 <>
