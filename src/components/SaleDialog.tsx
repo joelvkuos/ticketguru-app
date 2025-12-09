@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, FormControl, InputLabel, Select } from '@mui/material';
 import { useState, useEffect } from 'react';
 import type { Events, Types } from '../types';
-import { fetchEvents, fetchTypes, createTicket, createSale } from '../services/api';
+import { fetchEvents, fetchTypes, createTicket, createSale, fetchTickets } from '../services/api';
 
 interface SaleDialogProps {
     open: boolean;
@@ -67,7 +67,29 @@ function SaleDialog({ open, onClose, onSave }: SaleDialogProps) {
             if (!selectedType) {
                 setModalMessage('Selected ticket type not found');
                 setShowModal(true);
+                setLoading(false);
                 return;
+            }
+
+            // Check capacity
+            const selectedEvent = events.find(e => String(e.id) === String(selectedEventId));
+            if (selectedEvent) {
+                const eventCapacity = parseInt(selectedEvent.capacity);
+                const allTickets = await fetchTickets();
+                const allEventTypes = ticketTypes.filter(t => t.eventId === selectedEventId);
+                const eventTypeIds = allEventTypes.map(t => t.id);
+                const soldTicketsForEvent = allTickets.filter(t => 
+                    eventTypeIds.includes(t.ticketTypeId) && t.sold
+                ).length;
+
+                const availableCapacity = eventCapacity - soldTicketsForEvent;
+
+                if (quantity > availableCapacity) {
+                    setModalMessage(`Cannot sell ${quantity} tickets. Only ${availableCapacity} tickets available (Capacity: ${eventCapacity}, Sold: ${soldTicketsForEvent})`);
+                    setShowModal(true);
+                    setLoading(false);
+                    return;
+                }
             }
 
             const totalPrice = selectedType.price * quantity;
