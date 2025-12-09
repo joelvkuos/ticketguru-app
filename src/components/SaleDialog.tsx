@@ -78,7 +78,7 @@ function SaleDialog({ open, onClose, onSave }: SaleDialogProps) {
                 const allTickets = await fetchTickets();
                 const allEventTypes = ticketTypes.filter(t => t.eventId === selectedEventId);
                 const eventTypeIds = allEventTypes.map(t => t.id);
-                const soldTicketsForEvent = allTickets.filter(t => 
+                const soldTicketsForEvent = allTickets.filter(t =>
                     eventTypeIds.includes(t.ticketTypeId) && t.sold
                 ).length;
 
